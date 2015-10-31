@@ -1,12 +1,12 @@
 {
-  "name": "directory",
-  "version": "0.0.0",
-  "description": "",
+  "name": "directory-api",
+  "version": "1.0.0",
+  "description": "Carnegie Mellon University directory information.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Shalom Yiblet",
+  "author": "Shalom Yiblet (yiblet@scottylabs.org)",
   "license": "MIT",
   "dependencies": {
     "ldapjs": "^1.0.0"

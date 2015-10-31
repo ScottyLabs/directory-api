@@ -1,28 +1,46 @@
 var ldap = require('ldapjs')
-
-// ldap.cmu.edu
-
-
+var express = require('express')
 var client = ldap.createClient({
   url: 'ldap://ldap.andrew.cmu.edu'
 })
+// ldap.cmu.edu
 
-var empty = {
-  filter: '(cmuAndrewID=syiblet)',
-  scope: "sub"
+
+var app = express()
+
+
+
+var search = function (andrewId, callback) {
+  var options = {
+    filter: `(cmuAndrewID=${andrewId})`,
+    scope: 'sub'
+  };
+
+  client.search('ou=person, dc=cmu, dc=edu', options, function (err, searchStream) {
+    if (err){ callback(err); return }
+    var results = [];
+
+    searchStream.on('searchEntry', function (entry) {
+      results.push(entry.object)
+    })
+    searchStream.on('error', function (err) {
+      callback(err)
+    })
+    searchStream.on('end', function (result) {
+      callback(null, results)
+    })
+  })
 }
 
-client.search('ou=person, dc=cmu, dc=edu', empty, function (err, result) {
-  result.on('searchEntry', function (entry) {
-    console.log('entry: ' + JSON.stringify(entry.object))
-  })
-  result.on('searchReference', function (referral) {
-    console.log('referral: ' + referral.uris.join())
-  })
-  result.on('error', function (err) {
-    console.error('error: ' + err.message)
-  })
-  result.on('end', function (result) {
-    console.log('status: ' + result.status)
+app.get('/andrewId/:id', function (req, res) {
+  search (req.params.id, function (err, response) {
+    if (err) {
+      res.status(500)
+      res.end(JSON.stringify(err))
+      return
+    }
+  res.end(JSON.stringify(response))
   })
 })
+
+app.listen(8080)
