@@ -120,7 +120,9 @@ app.get('/andrewId/:id', errCheck, function (req, res) {
     // This may or may not be in the query.
     campus: raw.cmuCampus,
     department: raw.cmuDepartment,
-    affiliation: raw.cmuPersonPrimaryAffiliation,
+    affiliation: raw.eduPersonPrimaryAffiliation,
+    student_level: raw.cmuStudentLevel,
+    student_class: raw.cmuStudentClass,
     names: raw.cn,
     job_title: raw.title,
     office: raw.postalAddress,
