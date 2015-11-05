@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>ScottyLabs Directory API by ScottyLabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">ScottyLabs Directory API</h1>
+      <h2 class="project-tagline">Learn about people, the ScottyLabs way.</h2>
+      <a href="https://github.com/ScottyLabs/directory-api" class="btn">View on GitHub</a>
+      <a href="https://github.com/ScottyLabs/directory-api/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/ScottyLabs/directory-api/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h1>
+
+<p>The Directory API has endpoints allowing you to get information about Carnegie Mellon AndrewIDs.  You can query to check if an AndrewID exists, and to get some basic information about a person given their AndrewID.  Our information comes from the public LDAP servers run by Carnegie Mellon, which are the backing agent for <a href="http://directory.andrew.cmu.edu">the Andrew directory</a>.</p>
+
+<p>Go ahead and try it out by going to <a href="http://apis.scottylabs.org/directory/v1/andrewID/odb">apis.scottylabs.org/directory/v1/andrewID/odb/</a>!</p>
+
+<h2>
+<a id="version-1" class="anchor" href="#version-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version 1</h2>
+
+<p>In version 1, we have two endpoints, one at <code>/andrewID/:id</code> and one at <code>/andrewID/:id/raw</code>.  The former has several fields we prefill from the LDAP data for your convenience.  You can check for AndrewID existence by noting that requesting a nonexistent AndrewID will return a <code>404: Not Found</code> status.  The second endpoint is for those of you who want access to the raw LDAP data, which has more data but much less structure between people.</p>
+
+<h3>
+<a id="get-andrewidid" class="anchor" href="#get-andrewidid" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET <code>/andrewID/:id</code>
+</h3>
+
+<p>Sample Request:</p>
+
+<pre><code>GET http://apis.scottylabs.org/directory/v1/andrewID/odb
+</code></pre>
+
+<p>Response format:</p>
+
+<div class="highlight highlight-source-js"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>andrewID<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>first_name<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>middle_name<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>last_name<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>preferred_email<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>campus<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>department<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>affiliation<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>names<span class="pl-pds">"</span></span><span class="pl-k">:</span> [string],
+
+  <span class="pl-c">// This may or may not be in the query, depending.</span>
+  <span class="pl-s"><span class="pl-pds">"</span>student_level<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>student_class<span class="pl-pds">"</span></span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>job_title<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+  <span class="pl-s"><span class="pl-pds">"</span>office<span class="pl-pds">"</span></span><span class="pl-k">:</span> string,
+}</pre></div>
+
+<h3>
+<a id="get-andrewididraw" class="anchor" href="#get-andrewididraw" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET <code>/andrewID/:id/raw</code>
+</h3>
+
+<p>Sample Request:</p>
+
+<pre><code>GET http://apis.scottylabs.org/directory/v1/andrewID/odb/raw
+</code></pre>
+
+<p>Sample response:</p>
+
+<div class="highlight highlight-source-js"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>dn<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>guid=A9C831E4-66C8-11E2-8000-00144F799A7A,ou=PERSON,dc=CMU,dc=EDU<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>controls<span class="pl-pds">"</span></span><span class="pl-k">:</span> [],
+  <span class="pl-s"><span class="pl-pds">"</span>cmuCampus<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Pittsburgh<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuDepartment<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Computer Science<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuMiddleName<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>D<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuPersonAffiliation<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Student<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuPrimaryCampus<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Pittsburgh<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuPrivate<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>homePhone<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>homePostalAddress<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>postalAddress<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>telephoneNumber<span class="pl-pds">"</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">"</span>cmuStudentLevel<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Undergrad<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cn<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>Oscar Bezi<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>Oscar D Bezi<span class="pl-pds">"</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">"</span>eduPersonAffiliation<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Student<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>eduPersonPrimaryAffiliation<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Student<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>eduPersonSchoolCollegeName<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>School of Computer Science<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>Student Employment<span class="pl-pds">"</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">"</span>givenName<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Oscar<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>guid<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>A9C831E4-66C8-11E2-8000-00144F799A7A<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>objectClass<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>cmuPerson<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>sn<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Bezi<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuAndrewCommonNamespaceId<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>odb<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuAccount<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>uid=odb,ou=account,dc=andrew,dc=cmu,dc=edu<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>uid=bezi,ou=account,dc=cmu,dc=edu<span class="pl-pds">"</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">"</span>cmuAndrewId<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>odb<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuActiveDN<span class="pl-pds">"</span></span><span class="pl-k">:</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>uid=odb,ou=account,dc=andrew,dc=cmu,dc=edu<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>uid=bezi,ou=account,dc=cmu,dc=edu<span class="pl-pds">"</span></span>
+  ],
+  <span class="pl-s"><span class="pl-pds">"</span>cmuPersonPrincipalName<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>odb@ANDREW.CMU.EDU<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmueduId<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>bezi<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>mail<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>bezi@cmu.edu<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuPreferredMail<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>bezi@cmu.edu<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Job Mgmt Student Job Profile<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>cmuStudentClass<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Junior<span class="pl-pds">"</span></span>
+}</pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/ScottyLabs/directory-api">ScottyLabs Directory API</a> is maintained by <a href="https://github.com/ScottyLabs">ScottyLabs</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
