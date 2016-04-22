@@ -9,6 +9,7 @@
   "author": "Shalom Yiblet (yiblet@scottylabs.org)",
   "license": "MIT",
   "dependencies": {
+    "dateformat": "^1.0.12",
     "express": "^4.13.3",
     "ldapjs": "^1.0.0",
     "morgan": "^1.6.1"

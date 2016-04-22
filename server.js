@@ -41,6 +41,9 @@ app.use(morgan('combined'));
 // Some helper functions.
 // =============================================================================
 
+/* @brief Nice date format for startup time. */
+var dateFormat = require('dateformat');
+
 /* @brief Searches for an AndrewID using LDAP.
  * @param String andrewID The AndrewID to look for.
  * @param Function callback The callback.
@@ -137,5 +140,8 @@ app.get('/andrewId/:id', errCheck, function (req, res) {
 
 // Start up the server.
 app.listen(port,
-  () => console.log(`Directory API up and running on port ${ port }.`)
+  () => {
+    var now = dateFormat(new Date (), "dddd, mmmm dS, yyyy, h:MM:ss TT");
+    console.log(`Directory API up and running on port ${ port }: ${ now }.`)
+  }
 );
