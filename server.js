@@ -107,6 +107,10 @@ app.get('/andrewId/:id/raw', errCheck, function (req, res) {
 app.get('/andrewId/:id', errCheck, function (req, res) {
   var raw = req.rawData;
 
+  var department = Array.isArray(raw.cmuDepartment)
+    ? raw.cmuDepartment
+    : [raw.cmuDepartment];
+
   var person = {
     // All requests will have these fields.
     andrewID: raw.cmuAndrewId,
@@ -119,7 +123,7 @@ app.get('/andrewId/:id', errCheck, function (req, res) {
 
     // This may or may not be in the query.
     campus: raw.cmuCampus,
-    department: raw.cmuDepartment,
+    department: department,
     affiliation: raw.eduPersonPrimaryAffiliation,
     student_level: raw.cmuStudentLevel,
     student_class: raw.cmuStudentClass,
