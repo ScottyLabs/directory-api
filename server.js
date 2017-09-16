@@ -38,6 +38,41 @@ var app = express();
 app.use(morgan('combined'));
 
 // =============================================================================
+// Cache
+// =============================================================================
+
+var cache = {};
+var keepLength = 1 * 60 * 1000; // 5 minutes
+
+/* @brief Saves data to cache
+ * @param String andrewID The AndrewID the data represents.
+ * @param Array results The results from search()
+ */
+var saveToCache = function (andrewId, results) {
+  if (results.length == 0) return; // don't save if not found
+
+  cache[andrewId] = {
+    'date': new Date(),
+    'rawData': results
+  }
+};
+
+/* @brief Checks the cache for data for an andrewId
+ * @param String andrewID The AndrewID to look for.
+ */
+var checkCache = function (andrewId) {
+  console.log("checking cache");
+  if (!cache[andrewId]) return null;
+
+  var obj = cache[andrewId],
+      timeElapsed = new Date() - obj['date'];
+  
+  if (timeElapsed <= keepLength) return obj['rawData'];
+
+  return null;
+};
+
+// =============================================================================
 // Some helper functions.
 // =============================================================================
 
@@ -49,6 +84,12 @@ var dateFormat = require('dateformat');
  * @param Function callback The callback.
  */
 var search = function (andrewId, callback) {
+  var cachedObj = checkCache(andrewId);
+  if (cachedObj) {
+    callback(null, cachedObj);
+    return;
+  }
+
   var options = {
     filter: `(cmuAndrewID=${andrewId})`,
     scope: 'sub',
@@ -68,6 +109,7 @@ var search = function (andrewId, callback) {
     });
 
     str.on('end', function () {
+      saveToCache(andrewId, results);
       callback(null, results);
     });
   });
