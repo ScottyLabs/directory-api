@@ -42,7 +42,7 @@ app.use(morgan('combined'));
 // =============================================================================
 
 var cache = {};
-var keepLength = 1 * 60 * 1000; // 5 minutes
+var keepLength = 5 * 60 * 1000; // 5 minutes
 
 /* @brief Saves data to cache
  * @param String andrewID The AndrewID the data represents.
