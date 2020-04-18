@@ -14,7 +14,7 @@
 var ldapURL = 'ldap://ldap.andrew.cmu.edu';
 
 /* @brief The port to listen on. */
-var port = 8080;
+var port = 5030;
 
 /* @brief Returned on 500 err codes. */
 var errString = 'Something went wrong.';
@@ -145,6 +145,10 @@ var errCheck = function (req, res, next) {
 // =============================================================================
 // Routes.
 // =============================================================================
+app.get('/', function(req, res) {
+  res.send('ScottyLabs Directory API');
+});
+
 app.get('/andrewId/:id/raw', errCheck, function (req, res) {
   res.json(req.rawData);
 });
