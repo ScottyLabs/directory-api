@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+- lts/*
+dist: trusty
+sudo: false
+addons:
+  ssh_known_hosts:
+  - chicago.club.cc.cmu.edu
