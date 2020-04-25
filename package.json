@@ -4,7 +4,7 @@
   "description": "Carnegie Mellon University directory information.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "author": "Shalom Yiblet (yiblet@scottylabs.org)",
   "license": "MIT",
