@@ -1,3 +1,8 @@
+## Archived Project
+As of August 24, 2020, CMU has changed the way they publish directory data. The LDAP endpoint that was previously used to query data is no longer accessible and as such, is incompatible with this current API. CMU Directory data is still accessible through their new [site](https://directory.andrew.cmu.edu/) and so a new Directory API is still feasible using web scraper.  At this time, I have decided that it is not very practical to revive this API due to the existence of the CMU directory site and have thus, archived this project.
+
+Gram Liu
+
 # directory-api
 The Directory API has endpoints allowing you to get information about Carnegie Mellon AndrewIDs. You can query to check if an AndrewID exists, and to get some basic information about a person given their AndrewID. Our information comes from the public LDAP servers run by Carnegie Mellon, which are the backing agent for the Andrew directory.
 
