@@ -8,7 +8,7 @@
 'use strict';
 
 // =============================================================================
-// Config
+// Config ejwdoejwojojojoj
 // =============================================================================
 /* @brief URL of the CMU LDAP server. */
 var ldapURL = 'ldap://ldap.andrew.cmu.edu';
