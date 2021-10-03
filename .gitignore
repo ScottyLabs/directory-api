@@ -1,1 +1,7 @@
 node_modules/
+
+# Virtual Environment Files
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
