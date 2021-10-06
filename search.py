@@ -14,7 +14,7 @@ def basic(query: str) -> Tag :
     marker = soup.find('span', id="results_marker")
     return marker.findNext('div')
 
-def advanced(fName: str, lName: str, aId: str, email: str) -> Tag :
+def advanced(fName: str = None, lName: str = None, aId: str = None, email: str = None) -> Tag :
     payload = {'first_name': fName,
                'last_name': lName,
                'andrew_id': aId,
