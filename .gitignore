@@ -6,6 +6,7 @@ Include/
 Lib/
 Scripts/
 pyvenv.cfg
+env/
 
 # build files
 __pycache__/
