@@ -1,12 +1,5 @@
-import search
+import dir_search
 from bs4.element import Tag
-
-result = search.basic("gael")
-
-for idx, val in enumerate(result.contents):
-    print(idx, " ", val)
-
-
 
 class Parser :
     data : Tag
@@ -47,8 +40,13 @@ class Parser :
                         dep.append(i.text)
                 self.results['department'] = dep
 
+if __name__ == "__main__":
+    result = dir_search.basic("gael")
 
-p = Parser(search.basic("gael"))
-p.parseSingle()
+    for idx, val in enumerate(result.contents):
+        print(idx, " ", val)
 
-print(p.results)
+    p = Parser(dir_search.basic("gael"))
+    p.parseSingle()
+
+    print(p.results)
