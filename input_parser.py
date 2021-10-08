@@ -10,7 +10,7 @@ class Parser :
         self.data = data
         self.single = 'class' not in data.attrs
 
-    def parseSingle(self):
+    def parse_single(self):
         if not self.single:
             raise TypeError("Cannot parse multiple results")
         self.results = {'listing': self.data.h1.text}
@@ -40,6 +40,16 @@ class Parser :
                         dep.append(i.text)
                 self.results['department'] = dep
 
+    def parse_multi(self):
+        raise NotImplementedError()
+
+    def parse(self):
+        if self.single:
+            return self.parse_single()
+        else:
+            return self.parse_multi()
+
+
 if __name__ == "__main__":
     result = dir_search.basic("gael")
 
@@ -47,6 +57,6 @@ if __name__ == "__main__":
         print(idx, " ", val)
 
     p = Parser(dir_search.basic("gael"))
-    p.parseSingle()
+    p.parse_single()
 
     print(p.results)
