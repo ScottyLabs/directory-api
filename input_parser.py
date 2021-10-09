@@ -2,13 +2,16 @@ import dir_search
 from bs4.element import Tag
 
 class Parser :
-    data : Tag
+    data : Tag or None
     single : bool
+    error : bool
     results : list[dict] or dict
 
     def __init__(self, data : Tag):
         self.data = data
-        self.single = 'class' not in data.attrs
+        if data is not None:
+            self.error = bool(data.findPrevious('p', class_="error"))
+            self.single = 'class' not in data.attrs
 
     def parse_single(self):
         if not self.single:
@@ -41,22 +44,32 @@ class Parser :
                 self.results['department'] = dep
 
     def parse_multi(self):
-        raise NotImplementedError()
+        if self.single:
+            raise TypeError("Result is not tabular")
+        rows = self.data.find_all('tr')
+        self.results = []
+        keys = ['last', 'first', 'andrew_id', 'affiliation', 'department']
+        for r in rows[1:]:
+            self.results.append(dict(map(lambda e : (e[0], e[1].text), zip(keys, r.find_all('td')))))
+
 
     def parse(self):
-        if self.single:
-            return self.parse_single()
+        if self.data is None:
+            self.results = None
+        elif self.single:
+            self.parse_single()
         else:
-            return self.parse_multi()
+            self.parse_multi()
 
 
 if __name__ == "__main__":
-    result = dir_search.basic("gael")
+    # result = dir_search.basic("david")
+    # print(result.error)
 
-    for idx, val in enumerate(result.contents):
-        print(idx, " ", val)
+    # for idx, val in enumerate(result.contents):
+    #     print(idx, " ", val)
 
-    p = Parser(dir_search.basic("gael"))
-    p.parse_single()
+    p = Parser(dir_search.basic("brandon"))
+    p.parse()
 
     print(p.results)

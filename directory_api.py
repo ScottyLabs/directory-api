@@ -1,3 +1,4 @@
+import re
 from input_parser import Parser
 import dir_search
 import flask
@@ -13,15 +14,21 @@ app.config["DEBUG"] = True
 def home():
     return ""
 
-@app.route('/search', methods=['GET'])
-def search_basic():
-    if 'q' in request.args:
-        name = request.args['q']
-    else:
-        return "Error: No search query provided. Please provide one."
-    p = Parser(dir_search.basic(name))
+@app.route('/search/basic/<search>', methods=['GET'])
+def get_basic(search):
+    p = Parser(dir_search.basic(search))
     p.parse()
     return jsonify(p.results)
+
+@app.route('/search/basic', methods=['GET', 'POST'])
+def post_basic():
+    if request.method == 'GET':
+        return "Please provide a query"
+    elif request.method == 'POST':
+        search = request.form['search']
+        p = Parser(dir_search.basic(search))
+        p.parse()
+        return jsonify(p.results)
 
 @app.route('/search/advanced', methods=['GET'])
 def search_advanced():
@@ -37,6 +44,26 @@ def search_advanced():
         id = request.args['id']
     if 'email' in request.args:
         email = request.args['email']
+    if not any([first,last,id,email]):
+        return "Error: No search query provided. Please provide one."
+    p = Parser(dir_search.advanced(first, last, id, email))
+    p.parse()
+    return jsonify(p.results)
+
+@app.route('/search/advanced', methods=['POST'])
+def post_advanced():
+    first = None
+    last = None
+    id = None
+    email = None
+    if 'first' in request.form:
+        first = request.form['first']
+    if 'last' in request.form:
+        last = request.form['last']
+    if 'id' in request.form:
+        id = request.form['id']
+    if 'email' in request.form:
+        email = request.form['email']
     if not any([first,last,id,email]):
         return "Error: No search query provided. Please provide one."
     p = Parser(dir_search.advanced(first, last, id, email))
