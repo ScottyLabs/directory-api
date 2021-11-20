@@ -1,0 +1,260 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "This is an API that serves information from the Carnegie Mellon University directory.",
+      "version": "2.2.0",
+      "title": "ScottyLabs Directory API",
+      "contact": {
+        "name": "ScottyLabs",
+        "email": "hello@scottylabs.org",
+        "url": "https://scottylabs.org"
+      }
+    },
+    "host": "127.0.0.1:5000",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "basic",
+        "description": "CMU Directory Basic Search"
+      },
+      {
+        "name": "advanced",
+        "description": "CMU Directory Advanced Search"
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/search/basic/{query}": {
+        "get": {
+          "tags": [
+            "basic"
+          ],
+          "summary": "Returns result of search query",
+          "description": "",
+          "parameters": [
+            {
+              "in": "path",
+              "type": "string",
+              "name": "query",
+              "required": true,
+              "description": "Query"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Result"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/search/basic": {
+        "post": {
+          "tags": [
+            "basic"
+          ],
+          "summary": "Returns result of search query",
+          "description": "",
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "in": "formData",
+              "type": "string",
+              "name": "search",
+              "required": true,
+              "description": "The search query"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/Result"
+              }
+            }
+          }
+        }
+      },
+      "/search/advanced": {
+        "get": {
+          "tags": [
+            "advanced"
+          ],
+          "summary": "Returns result of advanced query",
+          "description": "",
+          "parameters": [
+            {
+              "in": "query",
+              "type": "string",
+              "name": "first",
+              "required": false,
+              "description": "First name of the person searched for"
+            },
+            {
+              "in": "query",
+              "type": "string",
+              "name": "last",
+              "required": false,
+              "description": "Last name of the person searched for"
+            },
+            {
+              "in": "query",
+              "type": "string",
+              "name": "id",
+              "required": false,
+              "description": "Andrew id of person searched for"
+            },
+            {
+              "in": "query",
+              "type": "string",
+              "name": "email",
+              "required": false,
+              "description": "Email address of person searched for"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/Result"
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "advanced"
+          ],
+          "summary": "Returns result of advanced query",
+          "description": "",
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "in": "formData",
+              "type": "string",
+              "name": "first",
+              "required": false,
+              "description": "First name of the person searched for"
+            },
+            {
+              "in": "formData",
+              "type": "string",
+              "name": "last",
+              "required": false,
+              "description": "Last name of the person searched for"
+            },
+            {
+              "in": "formData",
+              "type": "string",
+              "name": "id",
+              "required": false,
+              "description": "Andrew id of person searched for"
+            },
+            {
+              "in": "formData",
+              "type": "string",
+              "name": "email",
+              "required": false,
+              "description": "Email address of person searched for"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/Result"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Results": {
+        "type": "object",
+        "properties": {
+          "locations": {
+            "$ref": "#/definitions/Short_Result"
+          }
+        }
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "listing": {
+            "type": "string"
+          },
+          "andrew_id": {
+            "type": "string"
+          },
+          "advisor": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "departments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "job": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "class_level": {
+            "type": "string"
+          }
+        }
+      },
+      "Short_Result": {
+        "type": "object",
+        "properties": {
+          "first": {
+            "type": "string"
+          },
+          "last": {
+            "type": "string"
+          },
+          "andrew_id": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "affiliation": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }

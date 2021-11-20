@@ -1,1 +1,14 @@
-node_modules/
+# VS Code files
+.vscode/
+
+# Virtual Environment Files
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
+env/
+.venv/
+.DS_Store
+
+# build files
+__pycache__/
