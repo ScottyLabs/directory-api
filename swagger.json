@@ -10,7 +10,7 @@
         "url": "https://scottylabs.org"
       }
     },
-    "host": "127.0.0.1:5000",
+    "host": "directory.apis.scottylabs.org",
     "basePath": "/",
     "tags": [
       {
